@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI ज्योतिष - भृगु नंदी + लाल किताब</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Hind:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <i class="fas fa-star-and-crescent"></i>
+      </div>
+      <h1>AI ज्योतिष - भृगु नंदी + लाल किताब</h1>
+      <p class="subtitle">प्राचीन ज्योतिष शास्त्र और आधुनिक तकनीक का संगम</p>
+    </header>
+    
+    <div class="card">
+      <form id="kundaliForm">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user"></i> पूरा नाम</label>
+          <input type="text" id="name" placeholder="आपका पूरा नाम" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="dob"><i class="fas fa-calendar-day"></i> जन्म तिथि</label>
+          <input type="date" id="dob" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="tob"><i class="fas fa-clock"></i> जन्म समय</label>
+          <input type="time" id="tob" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="pob"><i class="fas fa-map-marker-alt"></i> जन्म स्थान</label>
+          <input type="text" id="pob" placeholder="जन्म स्थान का नाम" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="gender"><i class="fas fa-venus-mars"></i> लिंग</label>
+          <select id="gender" required>
+            <option value="">चुनें...</option>
+            <option value="male">पुरुष</option>
+            <option value="female">स्त्री</option>
+            <option value="other">अन्य</option>
+          </select>
+        </div>
+        
+        <button type="submit" id="submitBtn">
+          <i class="fas fa-chart-line"></i> विस्तृत रिपोर्ट प्राप्त करें
+        </button>
+      </form>
+      
+      <div id="reportBox" class="card" style="display:none;">
+        <h2><i class="fas fa-file-alt"></i> आपकी ज्योतिषीय रिपोर्ट</h2>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-user-circle"></i> मूल विवरण</h3>
+          <div id="basicKundaliInfo"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-globe-asia"></i> ग्रह स्थिति</h3>
+          <table class="planet-table" id="planetTable">
+            <thead>
+              <tr>
+                <th>ग्रह</th>
+                <th>राशि</th>
+                <th>भाव</th>
+                <th>नक्षत्र</th>
+                <th>प्रभाव</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- जावास्क्रिप्ट से भरेगा -->
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-history"></i> पिछले जन्म के संस्कार</h3>
+          <div id="pastLifeKarma"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-calendar-check"></i> महत्वपूर्ण जीवन घटनाएँ</h3>
+          <div id="lifeEventsTimeline"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-calendar-day"></i> वर्तमान गोचर विश्लेषण</h3>
+          <div id="currentTransits"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-crystal-ball"></i> भविष्यवाणी (अगले 5 वर्ष)</h3>
+          <div id="futurePredictions"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-book-open"></i> लाल किताब के विशेष उपाय</h3>
+          <div id="lalKitabRemedies"></div>
+        </div>
+        
+        <div class="report-section">
+          <h3><i class="fas fa-lightbulb"></i> विशेष सुझाव</h3>
+          <div id="specialAdvice"></div>
+        </div>
+        
+        <div class="action-buttons">
+          <button onclick="generateDetailedPDF()">
+            <i class="fas fa-file-pdf"></i> PDF डाउनलोड करें
+          </button>
+          <button class="btn-secondary" onclick="resetForm()">
+            <i class="fas fa-redo"></i> नई रिपोर्ट
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-container card">
+      <h2><i class="fas fa-comments"></i> ज्योतिष सहायक</h2>
+      <p>अपने ज्योतिष संबंधित प्रश्न पूछें</p>
+      
+      <div class="chatbox" id="chatbox">
+        <div class="message bot">
+          <strong>ज्योतिष सहायक:</strong> 🙏 नमस्ते! मैं आपका ज्योतिष सहायक हूँ। आप मुझसे अपने जन्म विवरण के आधार पर या सामान्य ज्योतिष संबंधित प्रश्न पूछ सकते हैं।
+        </div>
+      </div>
+      
+      <div class="chat-input-container">
+        <input type="text" id="userInput" placeholder="उदाहरण: मेरी शादी कब होगी? मेरे करियर की स्थिति क्या है?">
+        <button onclick="handleUserInput()" id="sendBtn">
+          <i class="fas fa-paper-plane"></i> भेजें
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>© <span id="currentYear"></span> AI ज्योतिष - भृगु नंदी और लाल किताब के सिद्धांतों पर आधारित</p>
+    <p>यह रिपोर्ट केवल सूचनात्मक उद्देश्यों के लिए है।</p>
+  </footer>
+
+  <script src="astrology-calculations.js"></script>
+  <script>
+    // वर्तमान वर्ष दिखाएं
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
